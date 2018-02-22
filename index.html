@@ -24,100 +24,20 @@
 					<div class="example">
 						<div class="example__information">
 							<h2>Необходимые файлы для подключения</h2>
-	<p>Js files:</p>
-<div class="example__scroll">
-	<pre>
-&lt;!-- latest jQuery direct from google's CDN --&gt;
-&lt;script type="text/javascript" src="js/jquery.min.js"&gt;&lt;/script&gt;</pre>
-							</div>
-							<p>Для корректной работы плагина необходимо скачать и подключить соответствующие файлы. Скачать их можно по соответственным путям <b>скрпиты</b> в папке <b>/js</b>, <b>стили</b> в папке <b>/css</b></p>
-							<p>Так же можно скачать файлы с официальных сайтов:
-								<ul>
-									<li><a href="https://jquery.com">jQuery</a></li>
-								</ul>
-							</p>
+							<p>Для корректной работы необходимо скачать jQuery библиотеку 3.3.1</p>
+							<ul>
+								<li><a href="https://jquery.com">jQuery</a></li>
+							</ul>
 							<h2>Иницилизация</h2>
 							<p>Создаем блок для табов:</p>
-<pre>&lt;section class=&quot;exampleTabSection&quot;&gt;
-	&lt;div class=&quot;exampleTab js-tabsblock&quot;&gt;
-		&lt;div class=&quot;exampleTab__title&quot;&gt;
-			&lt;h2&gt;Пример Табов&lt;/h2&gt;
-		&lt;/div&gt;
-		&lt;div class=&quot;exampleTab__choose&quot;&gt;
-			&lt;span class=&quot;exampleTab__pick&quot;&gt;Выбрать таб:&lt;/span&gt;
-			&lt;span class=&quot;exampleTab__mobileSelect js-mobile-tab-link&quot;&gt;Таб 1&lt;/span&gt;
-			&lt;div class=&quot;exampleTab__tabs js-mobiletabs&quot;&gt;
-			&lt;a href=&quot;javascript:void(0);&quot; data-href=&quot;elem1&quot; class=&quot;js-tab-link exampleTab__tab -active&quot;&gt;Таб 2&lt;/a&gt;
-			&lt;a href=&quot;javascript:void(0);&quot; data-href=&quot;elem2&quot; class=&quot;js-tab-link exampleTab__tab&quot;&gt;Таб 3&lt;/a&gt;
-			&lt;a href=&quot;javascript:void(0);&quot; data-href=&quot;elem3&quot; class=&quot;js-tab-link exampleTab__tab&quot;&gt;Таб 4&lt;/a&gt;
-			&lt;a href=&quot;javascript:void(0);&quot; data-href=&quot;elem4&quot; class=&quot;js-tab-link exampleTab__tab&quot;&gt;Таб 5&lt;/a&gt;
-			&lt;a href=&quot;javascript:void(0);&quot; data-href=&quot;elem5&quot; class=&quot;js-tab-link exampleTab__tab&quot;&gt;Таб 6&lt;/a&gt;
-			&lt;/div&gt;
-		&lt;/div&gt;
-		&lt;div class=&quot;exampleTab__tabblock&quot;&gt;
-			&lt;div class=&quot;exampleTab__item js-tab__elem1 js-tab&quot;&gt;
-				111111111111111111111111111111111111111111111111111
-			&lt;/div&gt;
-			&lt;div class=&quot;exampleTab__item js-tab__elem2 hidden-block js-tab&quot;&gt;
-				22222222222222222222222222222222222222222222222222222
-			&lt;/div&gt;
-			&lt;div class=&quot;exampleTab__item js-tab__elem3 hidden-block js-tab&quot;&gt;
-				3333333333333333333333333333333
-			&lt;/div&gt;
-			&lt;div class=&quot;exampleTab__item js-tab__elem4 hidden-block js-tab&quot;&gt;
-				4444444444444444444444444444444
-			&lt;/div&gt;
-			&lt;div class=&quot;exampleTab__item js-tab__elem5 hidden-block js-tab&quot;&gt;
-				5555555555555555555555555555555555
-			&lt;/div&gt;
-		&lt;/div&gt;
-	&lt;/div&gt;
-&lt;/section&gt;</pre>
+							<script async src="https://jsfiddle.net/dyzadoLd/embed/html/dark/"></script>
 							<p><b>Общий блок для табов</b> - class="exampleTab js-tabsblock"</p>
 							<p><b>Блок для мобильного разрешения</b> - class="exampleTab__mobileSelect js-mobile-tab-link"</p>
 							<p><b>Ссылка для смены таба</b> - class="js-tab-link exampleTab__tab -active", так же у ссылки есть <b>data-href</b> с классом привязанным к открывающиму блоку, class="-active" показывает что данный блок открыт</p>
 							<p><b>Таб айтем</b> - class="exampleTab__item js-tab__elem1 js-tab", class="js-tab__elem1" именной индификатор для связывания с ссылкой.</p>
 							<p>Далее необходимо написать <b>js</b> код для иницилизации табов.</p>
-							<div class="example__scroll">
-							<pre>
-/*TABS*/
-$(document).on('click','.js-mobile-tab-link', function(e) {
-	e.preventDefault();
-	var $this = $(this),
-		$block = $this.closest('.js-tabsblock');
-		$tabLinkBlock = $block.find('.js-mobiletabs');
-
-	$tabLinkBlock.toggleClass('visible');
-	$this.toggleClass('active');
-});
-
-$(document).on('click','.js-tab-link', function(e) {
-	e.preventDefault();
-	var $this		= $(this),
-		thisText	= $this.text(), 
-		classBlock	= $this.data('href'),
-		$block		= $this.closest('.js-tabsblock'),
-		$mobileBlock = $block.find('.js-mobile-tab-link'),
-		$tabLinkBlock = $block.find('.js-mobiletabs'),
-		tabBlock	= $block.find('.js-tab');
-
-	$('.js-tab-link').each(function(){
-		$(this).removeClass('-active');
-	});
-
-	tabBlock.each(function() {
-		$(this).hide();
-	});
-
-	$tabLinkBlock.removeClass('visible');
-	$this.addClass('-active');
-	$('.js-tab__' + classBlock).show();
-	$mobileBlock.text(thisText).removeClass('active');
-});
-/*TABS*/
-</pre>
-						</div>
-						<h2>Реализованные примеры</h2>
+							<script async src="https://jsfiddle.net/c3hkndyz/embed/js/dark/"></script>
+							<h2>Реализованные примеры</h2>
 						<section class="exampleTabSection">
 							<div class="exampleTab js-tabsblock">
 								<div class="exampleTab__choose">
